@@ -11,7 +11,7 @@ from pydantic import BaseModel
 from typing import Protocol
 
 from autogen.cache.cache import Cache
-from autogen.oai.openai_utils import get_key, is_valid_api_key, OAI_PRICE1K
+from autogen.oai.openai_utils import get_key, is_valid_api_key, OAI_PRICE1K, retry_with_exponential_backoff
 from autogen.token_count_utils import count_token
 
 from autogen.runtime_logging import logging_enabled, log_chat_completion, log_new_client, log_new_wrapper
@@ -148,6 +148,7 @@ class OpenAIClient:
                 for choice in choices
             ]
 
+    @retry_with_exponential_backoff
     def create(self, params: Dict[str, Any]) -> ChatCompletion:
         """Create a completion for a given config using openai's client.
 
