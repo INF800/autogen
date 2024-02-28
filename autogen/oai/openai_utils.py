@@ -683,7 +683,6 @@ def retry_with_exponential_backoff(
             except errors as e:
                 # Increment retries
                 num_retries += 1
- 
                 # Check if max retries has been reached
                 if num_retries > max_retries:
                     raise Exception(
@@ -692,8 +691,8 @@ def retry_with_exponential_backoff(
  
                 # Increment the delay
                 delay *= exponential_base * (1 + jitter * random.random())
- 
                 # Sleep for the delay
+                logging.debug(f"[RateLimitError] Try={num_retries}, waiting for {delay} seconds.")
                 time.sleep(delay)
  
             # Raise exceptions for any errors not specified
