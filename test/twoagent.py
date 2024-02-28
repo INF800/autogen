@@ -1,4 +1,15 @@
+import argparse
+import logging
+
 from autogen import AssistantAgent, UserProxyAgent, config_list_from_json
+
+
+# Code to use `python test/twoagent.py -v` to run with debug logs.
+parser = argparse.ArgumentParser(description='A test script for two agent behaviour.')
+parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
+args = parser.parse_args()
+if args.verbose:
+    logging.basicConfig(level=logging.DEBUG)
 
 # Load LLM inference endpoints from an env variable or a file
 # See https://microsoft.github.io/autogen/docs/FAQ#set-your-api-endpoints
